@@ -1,11 +1,13 @@
+const http = require('http');
+
 describe('goToUrl', () => {
   const goToUrl = require('../lib/goToUrl');
 
   it('should echo the url', () => {
-    spyOn(console, 'log');
+    spyOn(http, 'get').and.callThrough();
 
-    const exampleDotCom = 'www.example.com';
+    const exampleDotCom = 'http://www.example.com';
     goToUrl(exampleDotCom);
-    expect(console.log).toHaveBeenCalledWith(jasmine.stringMatching(`ok, let's go to ` + exampleDotCom));
+    expect(http.get).toHaveBeenCalled();
   });
 });
