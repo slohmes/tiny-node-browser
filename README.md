@@ -7,7 +7,7 @@ A tiny browser, written in javascript.
 `npm install`
 
 ##### Run
-Run with `npm run start` and follow the command line prompts.
+Run with `npm run start` and enter a full url at the command prompt.
 
 ##### Test
 `npm run test`
