@@ -4,8 +4,8 @@
   "description": "A tiny browser, written in javascript.",
   "main": "app.js",
   "scripts": {
-    "start": "node lib/app.js",
-    "test": "jasmine"
+    "start": "node lib/app.js 2> tmp/error.log",
+    "test": "jasmine 2> tmp/error.log"
   },
   "repository": {
     "type": "git",
