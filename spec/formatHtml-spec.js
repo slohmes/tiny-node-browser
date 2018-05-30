@@ -12,4 +12,8 @@ describe('formatHtml', () => {
     const mockResponse = '<!doctype html><html><head><style type="text/css">body {background-color: #f0f0f2;}</style></head></html>';
     expect(formatHtml(mockResponse)).not.toContain('body {background-color: #f0f0f2;}');
   });
+  it('should strip js from html', () => {
+    const mockResponse = '<!doctype html><html><head><script>alert("hello!");</script></head></html>';
+    expect(formatHtml(mockResponse)).not.toContain('hello');
+  });
 });
