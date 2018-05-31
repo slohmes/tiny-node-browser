@@ -32,7 +32,7 @@ describe('getHtml', () => {
       })
     ));
     getHtml(exampleDotCom).catch((err) => {
-       expect(err).toContain('406');
+       expect(err.name).toContain('406');
     });
   });
 
