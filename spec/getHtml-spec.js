@@ -50,48 +50,48 @@ describe('getHtml', () => {
     });
   });
 
-  it('should return text if response is plain text', (done) => {
-    const hostname = '127.0.0.1';
-    const port = 3000;
+  describe('with test server', () => {
+    const HOSTNAME = '127.0.0.1';
+    const PORT = 3000;
+    const TEST_SERVER_URL = `http://${HOSTNAME}:${PORT}/`;
 
-    const testServer = http.createServer((req, res) => {
-      res.writeHead(200, {'content-type': 'text/plain'});
-      res.end('la de dah');
-    }).listen(port, hostname);
+    it('should return text if response is plain text', (done) => {
+      const testServer = http.createServer((req, res) => {
+        res.writeHead(200, {'content-type': 'text/plain'});
+        res.end('la de dah');
+      }).listen(PORT, HOSTNAME);
 
-    getHtml(`http://${hostname}:${port}/`).then(res => {
-      expect(res).toEqual('la de dah');
-      done();
-    })
-  });
-
-  it('should return html when valid http response is returned', (done) => {
-    const hostname = '127.0.0.1';
-    const port = 3001;
-
-    const testServer = http.createServer((req, res) => {
-      res.writeHead(200, {'content-type': 'text/html'});
-      res.end('<html>hello world</html>');
-    }).listen(port, hostname);
-
-    getHtml(`http://${hostname}:${port}/`).then(res => {
-      expect(res).toContain('<html>');
-      done();
+      getHtml(TEST_SERVER_URL).then(res => {
+        expect(res).toEqual('la de dah');
+        testServer.close();
+        done();
+      })
     });
-  });
 
-  it('should return html when http contentType header contains character encoding', (done) => {
-    const hostname = '127.0.0.1';
-    const port = 3002;
+    it('should return html when valid http response is returned', (done) => {
+      const testServer = http.createServer((req, res) => {
+        res.writeHead(200, {'content-type': 'text/html'});
+        res.end('<html>hello world</html>');
+      }).listen(PORT, HOSTNAME);
 
-    const testServer = http.createServer((req, res) => {
-      res.writeHead(200, {'content-type': 'text/html; charset=UTF-8'});
-      res.end('<html>hello world</html>');
-    }).listen(port, hostname);
+      getHtml(TEST_SERVER_URL).then(res => {
+        expect(res).toContain('<html>');
+        testServer.close();
+        done();
+      });
+    });
 
-    getHtml(`http://${hostname}:${port}/`).then(res => {
-      expect(res).toContain('<html>');
-      done();
+    it('should return html when http contentType header contains character encoding', (done) => {
+      const testServer = http.createServer((req, res) => {
+        res.writeHead(200, {'content-type': 'text/html; charset=UTF-8'});
+        res.end('<html>hello world</html>');
+      }).listen(PORT, HOSTNAME);
+
+      getHtml(TEST_SERVER_URL).then(res => {
+        expect(res).toContain('<html>');
+        testServer.close();
+        done();
+      });
     });
   });
 });
