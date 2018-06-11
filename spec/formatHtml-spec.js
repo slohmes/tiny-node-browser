@@ -16,4 +16,8 @@ describe('formatHtml', () => {
     const mockResponse = '<!doctype html><html><head><script>alert("hello!");</script></head></html>';
     expect(formatHtml(mockResponse)).not.toContain('hello');
   });
+  it('should ignore html tags within script tags', () => {
+    const mockResponse = '<!doctype html><html><head><script>alert("<p>oops</p>");</script></head></html>';
+    expect(formatHtml(mockResponse)).not.toContain('oops');
+  });
 });
